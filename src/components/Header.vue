@@ -6,14 +6,6 @@
         <p>店舗管理画面</p>
       </div>
     </div>
-    <div>
-      <nav class="nav">
-        <ul class="flex">
-          <li @click="$router.push('/login')" v-if="this.$store.state.auth  == false">ログイン</li>
-          <li @click="logout" v-else>ログアウト</li>
-        </ul>
-      </nav>
-    </div>
   </div>
 </template>
 

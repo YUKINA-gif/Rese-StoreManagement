@@ -3,13 +3,14 @@
     <div class="tabs">
       <nav>
         <ul class="contents">
-          <li @click="$router.push('/store/create')">
+          <li @click="$router.push('/store/create')" v-if="managerPage">
            店舗登録
           </li>
-           <li @click="$router.push('/store/change')">店舗情報変更
+           <li @click="$router.push('/store/change')" v-if="managerPage">店舗情報変更
           </li>
-          <li @click="$router.push('/booking/state')">予約状況確認
+          <li @click="$router.push('/booking/state')" v-if="managerPage">予約状況確認
           </li>
+          <li @click="$router.push('/store/manager')" v-else>店舗代表者権限発行</li>
         </ul>
       </nav>
       </div>
@@ -24,9 +25,19 @@ export default {
       stores: [],
       areas: [],
       genres: [],
-      postItem: []
+      postItem: [],
     }
   },
+  methods:{
+    managerPage(){
+      if (this.$route.name == "StoreManager") {
+        this.managerPage = false;
+      }
+    }
+  },
+  created(){
+    this.managerPage()
+  }
 }
 </script>
 

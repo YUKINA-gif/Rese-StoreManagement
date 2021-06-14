@@ -5,6 +5,8 @@ import ManagerLogin from "../views/ManagerLogin.vue";
 import StoreChange from "../views/StoreChange.vue";
 import StoreCreate from "../views/StoreCreate.vue";
 import BookingState from "../views/BookingState.vue";
+import StoreManager from '../views/StoreManager.vue';
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter)
 
@@ -24,13 +26,21 @@ const routes = [
     path: "/store/create",
     name: "StoreCreate",
     component: StoreCreate,
-    props: true,
   },
   {
     path: "/booking/state",
     name: "BookingState",
     component: BookingState,
-    props: true,
+  },
+  {
+    path: "/store/manager",
+    name: "StoreManager",
+    component: StoreManager,
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 

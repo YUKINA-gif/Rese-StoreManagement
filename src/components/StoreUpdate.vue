@@ -118,7 +118,7 @@ export default {
   .modal_window {
     text-align: left;
     z-index: 2;
-    width: 70%;
+    width: 60%;
     padding: 10px;
     background: #fff;
   }

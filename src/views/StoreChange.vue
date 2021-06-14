@@ -7,6 +7,7 @@
 <!-- 店舗検索（エリア） -->
         <select name="エリア" v-model="searchArea">
           <option value="" hidden class="pull_down">エリア </option>
+          <option value="0">すべて</option>
           <option
             v-for="(area, index) in areas"
             :key="index"
@@ -17,6 +18,7 @@
 <!-- 店舗検索（ジャンル） -->
         <select name="ジャンル" v-model="searchGenre">
           <option value="" hidden class="pull_down">ジャンル</option>
+          <option value="0">すべて</option>
           <option
             v-for="(genre, index) in genres"
             :key="index"
@@ -28,7 +30,6 @@
         <button type="submit" class="button search_button" @click="storeSearch">
           検索
         </button>
-        <button class="button delete_search" @click="clear">クリア</button>
     </div>
 <!-- 店舗一覧 -->
   <div class="stores_container">
@@ -132,12 +133,6 @@ export default {
         .catch(() => {
             this.searchResult = true;
         })
-    },
-    clear() {
-      this.$router.go({
-        path: this.$router.currentRoute.path,
-        force: true,
-      });
     },
     // 店舗情報更新モーダルウィンドウ表示
     openModal(store) {
