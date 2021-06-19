@@ -1,24 +1,134 @@
-# rese-management
+# Rese
 
-## Project setup
+飲食店予約サービスのフロントエンドです。
+
+## Prerequisites
+
+- Node.js 14.17.0
+- Vue.js 4.5.13
+
+## Installing
+インストール方法は省きます。
+
+まだインストールしていない場合は[こちら](https://github.com/YUKINA-gif/Rese.git)から確認してください。
+
+## Data Edit
+
+リポジトリを取得します。
+
+CLI を開きます。
+任意の場所にリポジトリをコピーします。
+
 ```
-yarn install
+$ git clone https://github.com/YUKINA-gif/Rese-StoreManagement.git
 ```
 
-### Compiles and hot-reloads for development
+ディレクトリに移動し、npm パッケージをインストールし、脆弱性の修正をします。
+
 ```
-yarn serve
+$ cd Rese
+
+$ npm install
+
+$ npm audit fix
 ```
 
-### Compiles and minifies for production
+## Access
+
+アクセスし、動作を確認します。
+
+ディレクトリ直下で下記コマンドを入力し、ローカルサーバーを起動します。
+
 ```
-yarn build
+$ yarn serve
 ```
 
-### Lints and fixes files
-```
-yarn lint
-```
+立ち上がったサーバーにアクセスします。
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Function
+
+機能一覧です。
+
+### 店舗代表者ログイン(トップページ)
+
+管理者によって発行されたIDとパスワードを使いログインすることが可能です。
+
+下記を使ってログインします。
+
+ID:  000146
+
+パスワード:  BSpsbEqI
+
+#### URL:
+
+http://localhost:8080
+
+### 店舗登録
+
+新たに店舗を登録することができます。
+
+各バリデーション、入力例は以下です。
+| 各項目 | 条件 | 入力例 |
+| --- | --- |--- |
+| 店名 | 入力必須,文字列 | 一楽 |
+| 店舗説明 | 入力必須・文字列 |数日かけて煮込んだ豚骨スープが自慢のお店です。 |
+| 店舗画像 | 入力必須・画像のみ |image_data.jpg|
+| エリア | 入力必須 |大阪|
+| ジャンル | 入力必須 |ラーメン|
+
+#### URL:
+
+http://localhost:8080/store/create
+
+### 店舗更新
+
+店舗情報の更新ができます。
+
+| 各項目 | 条件 | 入力例 |
+| --- | --- |--- |
+| 店名 | 入力必須,文字列 | 鮮魚部屋 |
+| 店舗説明 | 入力必須・文字列 |団体様予約も大歓迎！海鮮に自信あり＆品数豊富です。 |
+| エリア | 入力必須 |東京|
+| ジャンル | 入力必須 |居酒屋|。
+
+#### URL:
+
+http://localhost:8080/store/change
+
+### 店舗画像更新
+
+店舗画像の更新ができます。
+
+| 各項目 | 条件 | 入力例 |
+| --- | --- |--- |
+| 店舗画像 | 入力必須・画像のみ |store.jpg|
+
+#### URL:
+
+店舗更新と同箇所
+
+
+### 店舗削除
+登録した店舗を削除することができます。
+"店舗削除"をクリックし、"はい"を押すと削除します。
+"いいえ"を押すと戻ります。
+
+
+#### URL:
+
+店舗更新と同箇所
+
+### 予約状況確認
+
+予約状況の確認ができます。
+
+各項目は以下です。
+- 店名
+- 来店日
+- 来店時間
+- 来店人数
+- キャンセル済み(予約キャンセルされた場合のみ表示)
+
+#### URL:
+
+http://localhost:8080/booking/state

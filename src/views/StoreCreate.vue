@@ -112,15 +112,14 @@ export default {
     },
     reset() {
       (this.preview = null),
-        (this.file = null),
-        (this.$el.querySelector('input[type="file"]').value = null);
+      (this.file = null),
+      (this.$el.querySelector('input[type="file"]').value = null);
     },
     // エリア、ジャンル情報取得
     getStores() {
       axios
         .get(
-          "https://rese-booking.herokuapp.com/api/stores/" +
-            this.$store.state.user.id
+          "https://rese-booking.herokuapp.com/api/stores/0"
         )
         .then((response) => {
           this.areas = response.data.item.area;
