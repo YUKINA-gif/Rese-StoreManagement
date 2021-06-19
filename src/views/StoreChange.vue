@@ -138,7 +138,7 @@ export default {
       await axios
         .get(
           "https://rese-booking.herokuapp.com/api/stores/" +
-            this.$store.state.user.id
+            this.$store.state.manager.id
         )
         .then((response) => {
           this.stores = response.data.item.store;
@@ -155,7 +155,7 @@ export default {
       await axios
         .get(
           "https://rese-booking.herokuapp.com/api/storesSeach/" +
-            this.$store.state.user.id,
+            this.$store.state.manager.id,
           {
             params: {
               name: this.searchStoreName,
