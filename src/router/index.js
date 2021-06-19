@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 import store from "../store/index";
-import ManagerLogin from "../views/ManagerLogin.vue";
+import StoreManagerLogin from "../views/StoreManagerLogin.vue";
 import StoreChange from "../views/StoreChange.vue";
 import StoreCreate from "../views/StoreCreate.vue";
 import BookingState from "../views/BookingState.vue";
-import Done from "../views/Done.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter)
@@ -13,11 +12,11 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: "/",
-    name: "ManagerLogin",
-    component: ManagerLogin,
+    name: "StoreManagerLogin",
+    component: StoreManagerLogin,
   },
   {
-    path: "/store/Change",
+    path: "/store/change",
     name: "StoreChange",
     component: StoreChange,
     props: true,
@@ -37,14 +36,6 @@ const routes = [
     path: "/booking/state",
     name: "BookingState",
     component: BookingState,
-    meta: {
-      requiresAuth: true,
-    },
-  },
-  {
-    path: "/done",
-    name: "Done",
-    component: Done,
     meta: {
       requiresAuth: true,
     },

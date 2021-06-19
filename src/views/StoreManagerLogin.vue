@@ -1,20 +1,22 @@
 <template>
   <div class="management_login">
+    <!-- ログイン -->
     <div class="login_card">
       <h2>店舗代表者ログイン</h2>
         <div>
         <ul>
           <li>
+            <!-- ID -->
             <label for="login_id">ID:</label>
             <input
               type="text"
               id="login_id"
               placeholder="IDを入力してください"
               v-model="login_id"
-            />
+            /><!-- IDエラーメッセージ -->
             <span class="error" v-if="login_id_required">IDが入力されていません</span>
           </li>
-         
+          <!-- パスワード -->
           <li>
             <label for="password">パスワード:</label>
             <input
@@ -23,6 +25,7 @@
               placeholder="パスワードを入力してください"
               v-model="password"
             />
+            <!-- パスワードエラーメッセージ -->
             <span class="error" v-if="password_required">パスワードが入力されていません</span>
           </li>
         <button @click="login" type="button" class="button">ログイン</button>
@@ -45,12 +48,17 @@ export default {
     }
   },
   methods: {
+    // ログイン
     login(){
+      // バリデーション
+      // IDが空ならメッセージ表示
       if (this.login_id == ""){
         this.login_id_required = true
+        // パスワードが空ならメッセージ表示
       } if (this.password == ""){
         this.password_required = true
       } else {
+        // 上記以外ならログイン
       this.$store.dispatch("login", {
         login_id: this.login_id,
         password: this.password,
@@ -62,6 +70,9 @@ export default {
 </script>
 
 <style scoped>
+/* ====================
+      ログイン
+==================== */
   .management_login {
     width: 50%;
     margin: 140px auto 0;

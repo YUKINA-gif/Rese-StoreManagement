@@ -1,71 +1,83 @@
 <template>
   <div class="store_setting">
+    <!-- 店舗登録 -->
     <Management />
     <h2>店舗登録</h2>
     <table>
       <tr>
         <th>店名:</th>
-        <td><input type="text" id="store_name" v-model="name"></td>
+        <td><input type="text" id="store_name" v-model="name" /></td>
       </tr>
       <tr>
         <th>店舗説明:</th>
-        <td><textarea type="text" size="20" id="store_detail" rows="5" cols="30" wrap=”soft” v-model="overview"></textarea></td>
+        <td>
+          <textarea
+            type="text"
+            size="20"
+            id="store_detail"
+            rows="5"
+            cols="30"
+            wrap="”soft”"
+            v-model="overview"
+          ></textarea>
+        </td>
       </tr>
       <tr>
         <th>店舗画像:</th>
         <td>
-          <input type="file" @change="onFileChange" accept="image/*">
-           <div class="image" v-if="preview">
+          <input type="file" @change="onFileChange" accept="image/*" />
+          <div class="image" v-if="preview">
             <img :src="preview" />
           </div>
         </td>
       </tr>
       <tr>
         <th>エリア:</th>
-        <td><select id="store_area" v-model="area_id">
-              <option value="" hidden class="pull_down">エリア</option>
-              <option
-                v-for="(area, index) in areas"
-                :key="index"
-                :value="area.id"
-                >{{ area.area }}
-              </option>
-          </select></td>
+        <td>
+          <select id="store_area" v-model="area_id">
+            <option value="" hidden class="pull_down">エリア</option>
+            <option v-for="(area, index) in areas" :key="index" :value="area.id"
+              >{{ area.area }}
+            </option>
+          </select>
+        </td>
       </tr>
       <tr>
         <th>ジャンル:</th>
         <td>
           <select id="store_genre" v-model="genre_id">
             <option value="" hidden class="pull_down">ジャンル</option>
-              <option
-                v-for="(genre, index) in genres"
-                :key="index"
-                :value="genre.id"
-                >{{ genre.genre }}
-              </option>
+            <option
+              v-for="(genre, index) in genres"
+              :key="index"
+              :value="genre.id"
+              >{{ genre.genre }}
+            </option>
           </select>
         </td>
       </tr>
     </table>
-  <button class="button" @click="createStore"><p v-if="loading">登録</p><vue-loading
-          type="barsCylon"
-          color="#fff"
-          v-else
-          class="loading"
-    ></vue-loading></button> 
+
+    <button class="button" @click="createStore">
+      <p v-if="loading">登録</p>
+      <vue-loading
+        type="barsCylon"
+        color="#fff"
+        v-else
+        class="loading"
+      ></vue-loading>
+    </button>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 
 <script>
-import axios from 'axios';
-import Management from '../components/Management.vue';
+import axios from "axios";
+import Management from "../components/Management.vue";
 import { VueLoading } from "vue-loading-template";
 export default {
-  props:["val"],
+  props: ["val"],
   data() {
     return {
       preview: "",
@@ -77,13 +89,14 @@ export default {
       area_id: "",
       genre_id: "",
       loading: true,
-    }
+    };
   },
-  components:{
+  components: {
     Management,
-    VueLoading
+    VueLoading,
   },
   methods: {
+    // 画像プレビュー
     onFileChange(event) {
       this.file = event.target.files[0];
       // 何も選択されていなかったら処理中断
@@ -102,6 +115,7 @@ export default {
         (this.file = null),
         (this.$el.querySelector('input[type="file"]').value = null);
     },
+    // エリア、ジャンル情報取得
     getStores() {
       axios
         .get(
@@ -113,7 +127,8 @@ export default {
           this.genres = response.data.item.genre;
         });
     },
-    createStore(){
+    // 店舗登録
+    createStore() {
       this.loading = false;
       const formData = new FormData();
       formData.append("image", this.file);
@@ -123,65 +138,70 @@ export default {
       formData.append("genre_id", this.genre_id);
 
       axios
-      .post("https://rese-booking.herokuapp.com/api/stores",formData)
-      .then((response) => {
-        console.log(response);
-        this.$router.replace("/done");
-        this.loading = true;
-      })
-      .catch((error) => {
-        console.log(error);
-        alert("登録できませんでした。お手数ですが、再度お試しください。")
-        this.loading = true;
-      })
-    }
+        .post("https://rese-booking.herokuapp.com/api/stores", formData)
+        .then((response) => {
+          console.log(response);
+          alert("店舗を登録しました。")
+          this.loading = true;
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("登録できませんでした。お手数ですが、再度お試しください。");
+          this.loading = true;
+        });
+    },
   },
   created() {
     this.getStores();
   },
-}
+};
 </script>
 
 <style scoped>
-  .store_setting{
-    width:80%;
+/* ====================
+      店舗登録
+==================== */
+  .store_setting {
+    width: 80%;
     margin-left: 200px;
   }
-  h2{
-    font-size:25px;
+  h2 {
+    font-size: 25px;
   }
-  table{
+  table {
     width: 100%;
     margin-top: 20px;
     text-align: left;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
   }
-  tr{
+  tr {
     border: 1px solid #c2c2c2;
   }
-  th{
+  th {
     width: 25%;
     font-size: 18px;
-    padding:40px 20px;
+    padding: 40px 20px;
     background-color: rgb(212, 208, 201);
   }
-  td{
+  td {
     width: 60%;
     padding: 15px;
   }
-  td:nth-of-type(1){
+  td:nth-of-type(1) {
     padding-bottom: 30px;
   }
-  input,textarea,select{
+  input,
+  textarea,
+  select {
     width: 100%;
-    box-sizing:border-box;
+    box-sizing: border-box;
     padding: 5px;
     font-size: 18px;
   }
-  textarea{
+  textarea {
     display: block;
   }
-  .image{
+  .image {
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -197,7 +217,7 @@ export default {
     height: 100%;
     object-fit: cover;
   }
-  .button{
+  .button {
     margin: 20px 0 20px 50%;
     width: 100px;
     height: 35px;
@@ -205,7 +225,7 @@ export default {
     transform: translate(-50%);
     background-color: rgb(108, 209, 115);
   }
- .loading{
+  .loading {
     margin-right: 20px;
   }
 </style>

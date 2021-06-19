@@ -1,5 +1,6 @@
 <template>
   <div class="header flex">
+    <!-- ヘッダー -->
     <div class="flex">
       <h1>Rese</h1>
       <div class="management">
@@ -25,6 +26,9 @@ export default {
 </script>
 
 <style scoped>
+/* ====================
+      ヘッダー
+==================== */
   .header {
     height: 60px;
     line-height: 60px;
