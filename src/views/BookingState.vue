@@ -4,34 +4,58 @@
     <h2>予約状況</h2>
     <table>
       <tr>
-        <th>ユーザーID</th>
         <th>予約店舗</th>
         <th>予約日</th>
         <th>予約時間</th>
         <th>予約人数</th>
-        <th>ステータス</th>
+        <th>ユーザー</th>
+        <th>キャンセル済み</th>
       </tr>
-      <tr>
-        <td>aaa</td>
-        <td>aaa</td>
-        <td>aaa</td>
-        <td>aaa</td>
-        <td>aaa</td>
+      <tr v-for="(booking, index) in bookings" :key="index">
+        <td>{{ booking.store.name }}</td>
+        <td>{{ booking.booking_date }}</td>
+        <td>{{ booking.booking_time.substr(0,5) }}</td>
+        <td>{{ booking.booking_number }}</td>
+        <td>{{ booking.user.name }} 様</td>
+        <td>
+          <div v-if="cancel(booking)" class="cancel">キャンセル</div>
+        </td>
       </tr>
     </table>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 import Management from '../components/Management.vue';
 export default {
   data() {
     return {
-      
+      bookings: [],
     }
   },
   components:{
     Management
+  },
+  methods:{
+    getAllBookings(){
+      axios
+      .get("https://rese-booking.herokuapp.com/api/booking")
+      .then((response) => {
+        this.bookings = response.data.booking
+        
+      })
+    },
+    cancel(booking){
+      if (booking.is_booking === null) {
+        return  false
+      } else { 
+        return  true
+      }  
+    },
+  },
+  created() {
+    this.getAllBookings();
   },
 }
 </script>
@@ -56,5 +80,21 @@ export default {
   }
   td{
     padding: 10px;
+  }
+  .cancel{
+    width: 80px;
+    background-color: red;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+  }
+  .stay{
+    width: 80px;
+    background-color: #ffa500;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
   }
 </style>

@@ -5,11 +5,11 @@
     <table>
       <tr>
         <th>店名:</th>
-        <td><input type="text" id="store_name"></td>
+        <td><input type="text" id="store_name" v-model="name"></td>
       </tr>
       <tr>
         <th>店舗説明:</th>
-        <td><textarea type="text" size="20" id="store_detail" rows="5" cols="30" wrap=”soft”></textarea></td>
+        <td><textarea type="text" size="20" id="store_detail" rows="5" cols="30" wrap=”soft” v-model="overview"></textarea></td>
       </tr>
       <tr>
         <th>店舗画像:</th>
@@ -22,7 +22,7 @@
       </tr>
       <tr>
         <th>エリア:</th>
-        <td><select id="store_area">
+        <td><select id="store_area" v-model="area_id">
               <option value="" hidden class="pull_down">エリア</option>
               <option
                 v-for="(area, index) in areas"
@@ -35,7 +35,7 @@
       <tr>
         <th>ジャンル:</th>
         <td>
-          <select id="store_genre">
+          <select id="store_genre" v-model="genre_id">
             <option value="" hidden class="pull_down">ジャンル</option>
               <option
                 v-for="(genre, index) in genres"
@@ -47,8 +47,12 @@
         </td>
       </tr>
     </table>
-  <button class="button">登録</button>
-   
+  <button class="button" @click="createStore"><p v-if="loading">登録</p><vue-loading
+          type="barsCylon"
+          color="#fff"
+          v-else
+          class="loading"
+    ></vue-loading></button> 
   </div>
 </template>
 
@@ -59,6 +63,7 @@
 <script>
 import axios from 'axios';
 import Management from '../components/Management.vue';
+import { VueLoading } from "vue-loading-template";
 export default {
   props:["val"],
   data() {
@@ -67,10 +72,16 @@ export default {
       file: "",
       areas: [],
       genres: [],
+      name: "",
+      overview: "",
+      area_id: "",
+      genre_id: "",
+      loading: true,
     }
   },
   components:{
-    Management
+    Management,
+    VueLoading
   },
   methods: {
     onFileChange(event) {
@@ -102,6 +113,28 @@ export default {
           this.genres = response.data.item.genre;
         });
     },
+    createStore(){
+      this.loading = false;
+      const formData = new FormData();
+      formData.append("image", this.file);
+      formData.append("name", this.name);
+      formData.append("overview", this.overview);
+      formData.append("area_id", this.area_id);
+      formData.append("genre_id", this.genre_id);
+
+      axios
+      .post("https://rese-booking.herokuapp.com/api/stores",formData)
+      .then((response) => {
+        console.log(response);
+        this.$router.replace("/done");
+        this.loading = true;
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("登録できませんでした。お手数ですが、再度お試しください。")
+        this.loading = true;
+      })
+    }
   },
   created() {
     this.getStores();
@@ -110,65 +143,69 @@ export default {
 </script>
 
 <style scoped>
-.store_setting{
-  width:80%;
-  margin-left: 200px;
-}
-h2{
-  font-size:25px;
-}
-table{
-  width: 100%;
-  margin-top: 20px;
-  text-align: left;
-  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-}
-tr{
-  border: 1px solid #c2c2c2;
-}
-th{
-  width: 25%;
-  font-size: 18px;
-  padding:40px 20px;
-  background-color: rgb(212, 208, 201);
-}
-td{
-  width: 60%;
-  padding: 15px;
-}
-td:nth-of-type(1){
-  padding-bottom: 30px;
-}
-input,textarea,select{
-  width: 100%;
-  box-sizing:border-box;
-  padding: 5px;
-  font-size: 18px;
-}
-textarea{
-  display: block;
-}
-.image{
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-  padding-top: 60%;
-  margin: 10px 0;
-}
-.image img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.button{
-  margin: 20px 0 20px 50%;
-  width: 100px;
-  font-weight: bold;
-  transform: translate(-50%);
-  background-color: rgb(108, 209, 115);
-}
+  .store_setting{
+    width:80%;
+    margin-left: 200px;
+  }
+  h2{
+    font-size:25px;
+  }
+  table{
+    width: 100%;
+    margin-top: 20px;
+    text-align: left;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+  }
+  tr{
+    border: 1px solid #c2c2c2;
+  }
+  th{
+    width: 25%;
+    font-size: 18px;
+    padding:40px 20px;
+    background-color: rgb(212, 208, 201);
+  }
+  td{
+    width: 60%;
+    padding: 15px;
+  }
+  td:nth-of-type(1){
+    padding-bottom: 30px;
+  }
+  input,textarea,select{
+    width: 100%;
+    box-sizing:border-box;
+    padding: 5px;
+    font-size: 18px;
+  }
+  textarea{
+    display: block;
+  }
+  .image{
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    padding-top: 60%;
+    margin: 10px 0;
+  }
+  .image img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .button{
+    margin: 20px 0 20px 50%;
+    width: 100px;
+    height: 35px;
+    font-weight: bold;
+    transform: translate(-50%);
+    background-color: rgb(108, 209, 115);
+  }
+ .loading{
+    margin-right: 20px;
+  }
 </style>

@@ -36,8 +36,15 @@
       <h3 id="store_title">店舗</h3>
       <p v-if="searchResult">検索店舗はありません</p>
       <div class="wrap store_flex" v-else>
-        <div class="flex store_card" v-for="(store, index) in stores" :key="index">
-          <img :src="store.image" alt="" class="store_image image" />
+        <vue-loading
+          type="spin"
+          color="#000"
+          :size="{ width: '60px', height: '60px' }"
+          v-if="loading"
+          class="loading"
+    ></vue-loading>
+        <div class="flex store_card" v-for="(store, index) in stores" :key="index" v-else>
+          <img :src="'https://rese-image.s3.ap-northeast-3.amazonaws.com/' + store.image" alt="" class="store_image image" />
           <div class="store_detail">        
             <span class="store_name">{{ store.name }}</span>
             <div>
@@ -81,6 +88,7 @@ import Management from '../components/Management.vue';
 import Modal from '../components/StoreUpdate.vue';
 import ModalDel from '../components/StoreDelete.vue';
 import axios from 'axios';
+import { VueLoading } from "vue-loading-template";
 export default {
   data() {
     return {
@@ -95,16 +103,19 @@ export default {
       searchResult: false,
       modal: false,
       modal_del: false,
+      loading: false,
     }
   },
   components:{
     Management,
     Modal,
     ModalDel,
+    VueLoading
   },
   methods: {
     // 店舗一覧
     getStores() {
+      this.loading = true;
       axios
         .get(
           "https://rese-booking.herokuapp.com/api/stores/" +
@@ -114,7 +125,11 @@ export default {
           this.stores = response.data.item.store;
           this.areas = response.data.item.area;
           this.genres = response.data.item.genre;
-        });
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        })
     },
     // 店舗検索
     storeSearch() {
@@ -257,6 +272,9 @@ export default {
     width: 40%;
     display: block;
     padding: 10px;
+  }
+  .loading{
+    margin: 150px auto;
   }
 /* ====================
       レスポンシブ

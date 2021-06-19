@@ -5,7 +5,7 @@ import ManagerLogin from "../views/ManagerLogin.vue";
 import StoreChange from "../views/StoreChange.vue";
 import StoreCreate from "../views/StoreCreate.vue";
 import BookingState from "../views/BookingState.vue";
-import StoreManager from '../views/StoreManager.vue';
+import Done from "../views/Done.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter)
@@ -21,21 +21,33 @@ const routes = [
     name: "StoreChange",
     component: StoreChange,
     props: true,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/store/create",
     name: "StoreCreate",
     component: StoreCreate,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "/booking/state",
     name: "BookingState",
     component: BookingState,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
-    path: "/store/manager",
-    name: "StoreManager",
-    component: StoreManager,
+    path: "/done",
+    name: "Done",
+    component: Done,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: "*",
@@ -56,7 +68,7 @@ router.beforeEach((to, from, next) => {
     !store.state.auth
   ) {
     next({
-      path: "/login",
+      path: "/",
       query: {
         redirect: to.fullPath,
       },

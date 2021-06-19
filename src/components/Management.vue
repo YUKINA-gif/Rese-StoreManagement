@@ -30,7 +30,7 @@ export default {
   },
   methods:{
     managerPage(){
-      if (this.$route.name == "StoreManager") {
+      if (this.$route.name == "Manager") {
         this.managerPage = false;
       }
     }
