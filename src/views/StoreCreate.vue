@@ -119,8 +119,7 @@ export default {
     getStores() {
       axios
         .get(
-          "https://rese-booking.herokuapp.com/api/stores/" +
-            this.$store.state.user.id
+          "https://rese-booking.herokuapp.com/api/stores/0"
         )
         .then((response) => {
           this.areas = response.data.item.area;
