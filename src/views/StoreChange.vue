@@ -153,7 +153,7 @@ export default {
     async storeSearch() {
       await axios
         .get(
-          "https://rese-booking.herokuapp.com/api/storesSeach/0",
+          "https://rese-booking.herokuapp.com/api/storesSearch/0",
           {
             params: {
               name: this.searchStoreName,
