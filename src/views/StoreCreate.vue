@@ -112,8 +112,8 @@ export default {
     },
     reset() {
       (this.preview = null),
-        (this.file = null),
-        (this.$el.querySelector('input[type="file"]').value = null);
+      (this.file = null),
+      (this.$el.querySelector('input[type="file"]').value = null);
     },
     // エリア、ジャンル情報取得
     getStores() {
