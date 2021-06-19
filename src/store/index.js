@@ -23,10 +23,13 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, { login_id, password }) {
       const responseLogin = await axios
-        .post("https://rese-booking.herokuapp.com/api/manage/storeManager/login", {
-          login_id: login_id,
-          password: password,
-        })
+        .post(
+          "https://rese-booking.herokuapp.com/api/manage/storeManager/login",
+          {
+            login_id: login_id,
+            password: password,
+          }
+        )
         .catch(() => {
           alert("ログインできませんでした");
         });
