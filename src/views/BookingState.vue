@@ -41,8 +41,8 @@ export default {
   },
   methods: {
     // 予約情報取得
-    getAllBookings() {
-      axios
+    async getAllBookings() {
+      await axios
         .get("https://rese-booking.herokuapp.com/api/booking")
         .then((response) => {
           this.bookings = response.data.booking;

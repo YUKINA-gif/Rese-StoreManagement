@@ -133,9 +133,9 @@ export default {
   },
   methods: {
     // 店舗一覧
-    getStores() {
+    async getStores() {
       this.loading = true;
-      axios
+      await axios
         .get(
           "https://rese-booking.herokuapp.com/api/stores/" +
             this.$store.state.user.id
@@ -151,8 +151,8 @@ export default {
         });
     },
     // 店舗検索
-    storeSearch() {
-      axios
+    async storeSearch() {
+      await axios
         .get(
           "https://rese-booking.herokuapp.com/api/storesSeach/" +
             this.$store.state.user.id,
