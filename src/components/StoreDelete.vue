@@ -1,14 +1,27 @@
 <template>
   <transition name="modal">
     <div class="overlay" @click.self="$emit('close')">
+      <!-- 店舗削除 -->
       <div class="modal_window">
         <p id="title">店舗削除</p>
         <p class="check_text">本当にこの店舗を削除しますか?</p>
+        <button class="button yes_button" @click="store_delete" v-if="loading">
+          はい
+        </button>
 
-        <button class="button yes_button" @click="store_delete">はい</button>
-        <button class="button no_button" @click.self="$emit('close')">
+        <button
+          class="button no_button"
+          @click.self="$emit('close')"
+          v-if="loading"
+        >
           いいえ
         </button>
+        <vue-loading
+          type="barsCylon"
+          color="#000"
+          v-else
+          class="loading"
+        ></vue-loading>
       </div>
     </div>
   </transition>
@@ -16,15 +29,38 @@
 
 <script>
 import axios from "axios";
+import { VueLoading } from "vue-loading-template";
 export default {
   props: ["val"],
   data() {
-    return {};
+    return {
+      loading: true,
+    };
+  },
+  components: {
+    VueLoading,
   },
   methods: {
     store_delete() {
+      this.loading = false;
       axios
-   
+        .request({
+          method: "delete",
+          url: "https://rese-booking.herokuapp.com/api/stores",
+          data: {
+            id: this.val.id,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          alert("店舗を削除しました。");
+          this.$emit("close");
+          this.loading = true;
+        })
+        .catch(() => {
+          alert("削除できませんでした。お手数ですが再度お試しください。");
+          this.loading = true;
+        });
     },
   },
 };
@@ -32,7 +68,7 @@ export default {
 
 <style scoped>
 /* ====================
-      予約取消
+      店舗削除
 ==================== */
   table {
     width: 100%;
@@ -77,10 +113,14 @@ export default {
     color: black;
     background-color: #fff;
   }
-  .no_button{
-    background-color: #000
+  .no_button {
+    background-color: #000;
   }
   .check_text {
     margin-bottom: 20px;
+  }
+  .loading {
+    margin: 0 auto;
+    padding-left: 10px;
   }
 </style>

@@ -10,40 +10,40 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     auth: "",
-    user: "",
+    manager: "",
   },
   mutations: {
     auth(state, payload) {
       state.auth = payload;
     },
-    user(state, payload) {
-      state.user = payload;
+    storeManager(state, payload) {
+      state.storeManager = payload;
     },
     logout(state, payload) {
       state.auth = payload;
     },
   },
   actions: {
-    async login({ commit }, { email, password }) {
+    async login({ commit }, { login_id, password }) {
       const responseLogin = await axios
-        .post("https://rese-booking.herokuapp.com/api/login", {
-          email: email,
+        .post("https://rese-booking.herokuapp.com/api/manage/storeManager/login", {
+          login_id: login_id,
           password: password,
         })
         .catch(() => {
           alert("ログインできませんでした");
         });
-      const responseUser = await axios.get(
-        "https://rese-booking.herokuapp.com/api/user",
+      const responseStoreManager = await axios.get(
+        "https://rese-booking.herokuapp.com/api/manage/storeManager",
         {
           params: {
-            email: email,
+            login_id: login_id,
           },
         }
       );
       commit("auth", responseLogin.data.auth);
-      commit("user", responseUser.data.user);
-      router.replace("/");
+      commit("storeManager", responseStoreManager.data.storeManager);
+      router.replace("/store/create");
     },
     logout({ commit }) {
       axios
