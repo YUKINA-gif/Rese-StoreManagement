@@ -1,6 +1,6 @@
-# Rese
+# Rese Store Management
 
-飲食店予約サービスのフロントエンドです。
+飲食店予約サービスの店舗代表者用ページです。
 
 ## Prerequisites
 
