@@ -99,6 +99,7 @@ export default {
     padding: 10px;
   }
   td {
+    height: 30px;
     padding: 10px;
   }
   .cancel,
