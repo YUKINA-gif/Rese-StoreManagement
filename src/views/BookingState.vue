@@ -10,7 +10,7 @@
         <th>予約時間</th>
         <th>予約人数</th>
         <th>ユーザー</th>
-        <th>キャンセル済み</th>
+        <th>ステータス</th>
       </tr>
       <tr v-for="(booking, index) in bookings" :key="index">
         <td>{{ booking.store.name }}</td>
@@ -20,7 +20,11 @@
         <td>{{ booking.user.name }} 様</td>
         <!-- キャンセルステータス -->
         <td>
-          <div v-if="cancel(booking)" class="cancel">キャンセル</div>
+          <div>
+            <p v-if="cancel(booking)" class="cancel">キャンセル</p>
+            <p v-else-if="status(booking)" class="confirm">予約確定</p>
+            <p v-else></p>
+          </div>
         </td>
       </tr>
     </table>
@@ -30,6 +34,7 @@
 <script>
 import axios from "axios";
 import Management from "../components/Management.vue";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -48,6 +53,16 @@ export default {
           this.bookings = response.data.booking;
         });
     },
+    // 予約日以降ならステータスを予約確定
+    status(booking) {
+      const today = new Date();
+      if (moment(booking.booking_date) > today) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    // 予約キャンセルならステータスをキャンセル
     cancel(booking) {
       if (booking.is_booking === null) {
         return false;
@@ -86,13 +101,18 @@ export default {
   td {
     padding: 10px;
   }
-  .cancel {
+  .cancel,
+  .confirm {
     width: 80px;
     background-color: red;
     padding: 10px;
     border-radius: 5px;
     color: #fff;
     font-weight: bold;
+    text-align: center;
+  }
+  .confirm {
+    background-color: rgb(61, 223, 61);
   }
   .stay {
     width: 80px;
