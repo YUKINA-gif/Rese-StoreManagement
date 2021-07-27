@@ -55,9 +55,9 @@ $ yarn serve
 
 下記を使ってログインします。
 
-ID:  　000146
+ID:  01
 
-パスワード: 　 BSpsbEqI
+パスワード: 　 VwIkqDmN
 
 #### URL:
 

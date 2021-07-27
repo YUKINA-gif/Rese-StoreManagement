@@ -134,34 +134,24 @@ export default {
   methods: {
     // 店舗一覧
     async getStores() {
-      this.loading = true;
       await axios
-        .get(
-          "https://rese-booking.herokuapp.com/api/stores/0"
-        )
+        .get("https://rese-booking.herokuapp.com/api/stores/0")
         .then((response) => {
           this.stores = response.data.item.store;
           this.areas = response.data.item.area;
           this.genres = response.data.item.genre;
-          this.loading = false;
         })
-        .catch(() => {
-          this.loading = false;
-        });
     },
     // 店舗検索
     async storeSearch() {
       await axios
-        .get(
-          "https://rese-booking.herokuapp.com/api/storesSearch/0",
-          {
-            params: {
-              name: this.searchStoreName,
-              area_id: this.searchArea,
-              genre_id: this.searchGenre,
-            },
-          }
-        )
+        .get("https://rese-booking.herokuapp.com/api/storesSearch/0", {
+          params: {
+            name: this.searchStoreName,
+            area_id: this.searchArea,
+            genre_id: this.searchGenre,
+          },
+        })
         .then((response) => {
           this.stores = response.data.store;
           this.searchResult = false;
@@ -179,10 +169,7 @@ export default {
     },
     closeModal() {
       this.modal = false;
-      this.$router.go({
-        path: this.$router.currentRoute.path,
-        force: true,
-      });
+      this.getStores();
     },
     // 店舗削除モーダルウィンドウ表示
     openModalDel(store) {
@@ -191,10 +178,7 @@ export default {
     },
     closeModalDel() {
       this.modal_del = false;
-      this.$router.go({
-        path: this.$router.currentRoute.path,
-        force: true,
-      });
+      this.getStores();
     },
   },
   created() {
@@ -207,99 +191,99 @@ export default {
 /* ====================
       全体設計
 ==================== */
-  .store_update {
-    width: 80%;
-    margin-left: 200px;
-  }
-  .search_flex {
-    margin-top: 20px;
-  }
+.store_update {
+  width: 80%;
+  margin-left: 200px;
+}
+.search_flex {
+  margin-top: 20px;
+}
 /* ====================
       店舗検索
 ==================== */
-  .search {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #000;
-  }
-  select,
-  input {
-    padding: 7px;
-    margin-right: 10px;
-  }
-  select {
-    width: 15%;
-  }
-  input {
-    width: 25%;
-  }
-  h2 {
-    font-size: 25px;
-    margin-bottom: 10px;
-  }
-  .button {
-    width: 100px;
-    font-weight: bold;
-    background-color: rgb(212, 208, 201);
-    margin-left: 10px;
-  }
+.search {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #000;
+}
+select,
+input {
+  padding: 7px;
+  margin-right: 10px;
+}
+select {
+  width: 15%;
+}
+input {
+  width: 25%;
+}
+h2 {
+  font-size: 25px;
+  margin-bottom: 10px;
+}
+.button {
+  width: 100px;
+  font-weight: bold;
+  background-color: rgb(212, 208, 201);
+  margin-left: 10px;
+}
 /* ====================
     店舗一覧
 ==================== */
-  #store_title {
-    font-size: 22px;
-    margin: 10px 0;
-  }
-  .stores_container {
-    line-height: 2;
-  }
-  .store_name {
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .store_heart {
-    justify-content: space-between;
-  }
-  .png {
-    margin-right: 10px;
-  }
-  .store_button {
-    width: 130px;
-    padding: 7px 15px;
-    font-size: 15px;
-    margin: 20px 20px 0 20px;
-    color: #fff;
-    background-color: rgb(0, 0, 0, 0.7);
-  }
-  .tag {
-    margin-left: 10px;
-    color: gray;
-  }
-  span {
-    margin-left: 10px;
-  }
-  .store_card {
-    width: 100%;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
-  }
-  .store_image {
-    width: 30%;
-  }
-  .store_detail {
-    width: 20%;
-    display: block;
-    padding: 10px;
-  }
-  .store_overview {
-    width: 40%;
-    display: block;
-    padding: 10px;
-  }
-  .loading {
-    margin: 150px auto;
-  }
+#store_title {
+  font-size: 22px;
+  margin: 10px 0;
+}
+.stores_container {
+  line-height: 2;
+}
+.store_name {
+  font-weight: bold;
+  font-size: 20px;
+}
+.store_heart {
+  justify-content: space-between;
+}
+.png {
+  margin-right: 10px;
+}
+.store_button {
+  width: 130px;
+  padding: 7px 15px;
+  font-size: 15px;
+  margin: 20px 20px 0 20px;
+  color: #fff;
+  background-color: rgb(0, 0, 0, 0.7);
+}
+.tag {
+  margin-left: 10px;
+  color: gray;
+}
+span {
+  margin-left: 10px;
+}
+.store_card {
+  width: 100%;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.4);
+}
+.store_image {
+  width: 30%;
+}
+.store_detail {
+  width: 20%;
+  display: block;
+  padding: 10px;
+}
+.store_overview {
+  width: 40%;
+  display: block;
+  padding: 10px;
+}
+.loading {
+  margin: 150px auto;
+}
 /* ====================
       レスポンシブ
 ==================== */
